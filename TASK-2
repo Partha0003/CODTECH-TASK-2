@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class StudentGradeTracker {
+    public static final double[] GRADE_THRESHOLDS = {90.0, 80.0, 70.0, 60.0};
+    public static final String[] GRADE_LETTERS = {"A", "B", "C", "D", "F"};
+
+    public static void main(String[] args) {
+        Map<String, Double> semesterGrades = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Student Grade Tracker!");
+
+        System.out.println("\nEnter grades for the current semester:");
+
+        while (true) {
+            System.out.print("Enter the subject name (or 'exit' to calculate GPA): ");
+            String subject = scanner.nextLine();
+
+            if (subject.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            System.out.print("Enter the grade for " + subject + ": ");
+            double grade = scanner.nextDouble();
+            scanner.nextLine();
+
+            semesterGrades.put(subject, grade);
+        }
+
+        double totalGrade = 0.0;
+        int numSubjects = semesterGrades.size();
+
+        for (double mark : semesterGrades.values()) {
+            totalGrade += mark;
+        }
+            
+
+        double gpa = totalGrade / numSubjects;
+        String letterGrade = getLetterGrade(gpa);
+
+        System.out.println("\nStudent's Semester Performance:");
+        System.out.printf("GPA: %.2f\n", gpa);
+        System.out.println("Letter Grade: " + letterGrade);
+    }
+
+    public static String getLetterGrade(double averageGrade) {
+        for (int i = 0; i < GRADE_THRESHOLDS.length; i++) {
+            if (averageGrade >= GRADE_THRESHOLDS[i]) {
+                return GRADE_LETTERS[i];
+            }
+        }
+        return GRADE_LETTERS[GRADE_LETTERS.length - 1];
+    }
+}
